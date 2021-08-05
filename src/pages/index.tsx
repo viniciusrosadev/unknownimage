@@ -1,6 +1,6 @@
 import { GetStaticProps } from 'next'
 import { Flex, Text, Badge, Box, Grid } from '@chakra-ui/react'
-import { BoxImage } from '../components/boxImage'
+import { PictureBox } from '../components/pictureBox'
 import { Search } from '../components/search'
 import { apiUnsplash } from '../services/api'
 
@@ -21,9 +21,7 @@ type ImagesProps = {
 export default function Home({ images }: ImagesProps) {
   return (
     <>
-      <Flex align="center" justify="center" padding="4">
-        <Search />
-      </Flex>
+      <Search />
       <Box>
         <Flex mt="4">
           <Text color="red.500">
@@ -35,7 +33,7 @@ export default function Home({ images }: ImagesProps) {
         </Flex>
         <Grid mt="8" templateColumns="repeat(5, 1fr)">
           {images.flatMap((image) => {
-            return <BoxImage key={image.id} image={{ altDescription: image.alt_description, createdAt: image.created_at, imgUrl: image.urls.thumb }} />
+            return <PictureBox key={image.id} image={{ altDescription: image.alt_description, createdAt: image.created_at, imgUrl: image.urls.thumb }} />
           })}
         </Grid>
       </Box>

@@ -3,7 +3,7 @@ import { AiOutlineSearch } from "react-icons/ai";
 
 export function Search() {
     return (
-        <Flex as="form" >
+        <Flex as="form" align="center" justify="center" padding="4">
             <InputGroup size="lg" width="lg" borderColor="red.700">
 
                 <Input type="text" color="red.500" placeholder="Type your favorite picture" isRequired />

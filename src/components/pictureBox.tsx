@@ -1,17 +1,16 @@
 import { Box, Img } from '@chakra-ui/react'
 
-interface ImageInformation {
+interface PictureInformation {
     imgUrl: string;
     altDescription: string
-    provider?: 'Pexels' | 'Unsplash' | 'Other'
     createdAt: string;
 }
 
-interface IBoxImage {
-    image: ImageInformation
+interface IPictureBox {
+    image: PictureInformation
 }
 
-export function BoxImage({ image }: IBoxImage) {
+export function PictureBox({ image }: IPictureBox) {
     return (
         <Box boxSize="180px">
             <Img w="max" h="36" objectFit="cover" borderRadius="full" src={image.imgUrl} alt={image.altDescription} />
