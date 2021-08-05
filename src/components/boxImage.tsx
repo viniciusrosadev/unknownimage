@@ -1,9 +1,9 @@
-import { Badge, Box, Image } from '@chakra-ui/react'
+import { Box, Img } from '@chakra-ui/react'
 
 interface ImageInformation {
     imgUrl: string;
     altDescription: string
-    provider: 'Pexels' | 'Unsplash' | 'Other'
+    provider?: 'Pexels' | 'Unsplash' | 'Other'
     createdAt: string;
 }
 
@@ -13,8 +13,8 @@ interface IBoxImage {
 
 export function BoxImage({ image }: IBoxImage) {
     return (
-        <Box>
-            <Image boxSize="200px" borderRadius="md" src={image.imgUrl} alt={image.altDescription} />
+        <Box boxSize="180px">
+            <Img w="max" h="36" objectFit="cover" borderRadius="full" src={image.imgUrl} alt={image.altDescription} />
         </Box>
     )
 }
