@@ -33,7 +33,7 @@ export default function Home({ images }: ImagesProps) {
         </Flex>
         <Grid mt="8" templateColumns="repeat(5, 1fr)">
           {images.flatMap((image) => {
-            return <PictureBox key={image.id} image={{ altDescription: image.alt_description, createdAt: image.created_at, imgUrl: image.urls.thumb }} />
+            return <PictureBox key={image.id} image={{id:image.id, provider: 'Unsplash', altDescription: image.alt_description, createdAt: image.created_at, imgUrl: image.urls.thumb }} />
           })}
         </Grid>
       </Box>

@@ -1,9 +1,12 @@
 import { Box, Img } from '@chakra-ui/react'
+import Link from 'next/link'
 
 interface PictureInformation {
+    id: string | number;
     imgUrl: string;
     altDescription: string
     createdAt: string;
+    provider: 'Unsplash' | 'Other'
 }
 
 interface IPictureBox {
@@ -12,8 +15,10 @@ interface IPictureBox {
 
 export function PictureBox({ image }: IPictureBox) {
     return (
-        <Box boxSize="180px">
-            <Img w="max" h="36" objectFit="cover" borderRadius="full" src={image.imgUrl} alt={image.altDescription} />
-        </Box>
+        <Link href={`/picture/${image.id}-${image.provider}`} passHref>
+            <Box as="a" boxSize="180px">
+                <Img w="max" h="36" objectFit="cover" borderRadius="full" src={image.imgUrl} alt={image.altDescription} />
+            </Box>
+        </Link>
     )
 }
