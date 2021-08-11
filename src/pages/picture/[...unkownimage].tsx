@@ -1,4 +1,5 @@
-import { Flex, Text, SimpleGrid, Box, HStack, Img } from '@chakra-ui/react'
+import { Flex, Text, SimpleGrid, Box, Stack, HStack, Img } from '@chakra-ui/react'
+import Link from 'next/link'
 import { Search } from '../../components/search'
 import { ShareButton } from '../../components/shareButton'
 import { apiUnsplash } from '../../services/api'
@@ -20,6 +21,9 @@ type PictureInformation = {
     alt_description: string;
     width: number;
     height: number;
+    user: {
+        name: string;
+    }
     location?: {
         city: string;
         country: string;
@@ -30,7 +34,9 @@ type PictureInformation = {
     }
     links: {
         download: string;
+        html: string;
     }
+    provider: string;
 }
 
 export default function UnkownImage({ image }: IImage) {
@@ -38,15 +44,9 @@ export default function UnkownImage({ image }: IImage) {
         <>
             <Search />
 
-            <Flex mt="4">
-                <Text color="red.500">
-                {image.description ?? 'Image from Unsplash'}
-                </Text>
-            </Flex>
-
             <Flex align="baseline" justify="center">
                 <Box padding="1">
-                    <Img borderRadius="sm" src={image.urls.regular} alt={image.alt_description}/>
+                    <Img borderRadius="md" src={image.urls.regular} alt={image.alt_description} />
                 </Box>
             </Flex>
 
@@ -54,17 +54,37 @@ export default function UnkownImage({ image }: IImage) {
                 <ShareButton colorScheme="red" />
             </Flex>
 
-            <SimpleGrid columns={2} columnGap="sm">
+            <SimpleGrid mt="2" columns={2} columnGap="sm">
 
-                <HStack>
-                    <Text>
-                        {image.description ?? 'Image from Unsplash'}
+                <Stack>
+                    <HStack>
+                        <Text color="red.500">
+                            Description:
+                        </Text>
+                    </HStack>
+                    <HStack fontSize="md">
+                        <Text color="red.200">
+                            {image.description ?? 'Image from Unsplash'}
+                        </Text>
+                    </HStack>
+                </Stack>
+
+                <HStack ml="1" borderLeft="1px" borderLeftColor="red.400">
+                    <Text pl="2" color="red.500">
+                        Author:
                     </Text>
-                </HStack>
-
-                <HStack borderLeft="1px">
-                    <Box ml="4">
-                        <Text>Author</Text>
+                    <Box ml="4" fontSize="md" color="red.200">
+                        <Text>
+                            Provider: {image.provider}
+                        </Text>
+                        <Text>
+                            Name: {image.user.name ?? 'Unknown'}
+                        </Text>
+                        <Link href={image.links.html} passHref prefetch={false}>
+                            <Text as="a">
+                                Original image
+                            </Text>
+                        </Link>
                     </Box>
                 </HStack>
             </SimpleGrid>
@@ -81,7 +101,9 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }: IUnkownImage) {
-    const pictureId = params.unkownimage[0].slice(0,-2)
+    const pictureId = params.unkownimage[0].slice(0, -2)
+
+    const providerImage = 'Unsplash'
 
     const picFromUnsplash = await apiUnsplash.get(`/photos/${pictureId}`).then(response => response.data)
 
@@ -92,19 +114,24 @@ export async function getStaticProps({ params }: IUnkownImage) {
         description: picFromUnsplash.description,
         alt_description: picFromUnsplash.alt_description,
         created_at: picFromUnsplash.created_at,
+        user: {
+            name: picFromUnsplash.user.name
+        },
         urls: {
             full: picFromUnsplash.urls.full,
             regular: picFromUnsplash.urls.regular
         },
         links: {
-            download: picFromUnsplash.links.download
-        }
+            download: picFromUnsplash.links.download,
+            html: picFromUnsplash.links.html
+        },
+        provider: providerImage
     }
 
     return {
         props: {
             image: picture
         },
-        revalidate: 86400,
+        revalidate: 86400 * 7,
     }
 }
