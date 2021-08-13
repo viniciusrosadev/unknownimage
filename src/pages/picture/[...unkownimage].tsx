@@ -132,6 +132,6 @@ export async function getStaticProps({ params }: IUnkownImage) {
         props: {
             image: picture
         },
-        revalidate: 86400 * 7,
+        revalidate: 604800,
     }
 }
