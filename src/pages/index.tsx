@@ -1,6 +1,6 @@
 import { GetStaticProps } from 'next'
-import { Flex, Text, Badge, Box, Grid, Spinner } from '@chakra-ui/react'
-import { BoxImage } from '../components/boxImage'
+import { Flex, Text, Badge, Box, Grid } from '@chakra-ui/react'
+import { PictureBox } from '../components/pictureBox'
 import { Search } from '../components/search'
 import { apiUnsplash } from '../services/api'
 
@@ -21,21 +21,19 @@ type ImagesProps = {
 export default function Home({ images }: ImagesProps) {
   return (
     <>
-      <Flex align="center" justify="center" padding="2">
-        <Search />
-      </Flex>
+      <Search />
       <Box>
-        <Flex mt="2">
+        <Flex mt="4">
           <Text color="red.500">
-            Various images
+            Suggested images
             <Badge ml="2" color="black" colorScheme="red">
               New
             </Badge>
           </Text>
         </Flex>
-        <Grid mt="6" templateColumns="repeat(4, 1fr)" gap={6}>
+        <Grid mt="8" templateColumns={["repeat(2, 1fr)", "repeat(5, 1fr)"]}>
           {images.flatMap((image) => {
-            return <BoxImage key={image.id} image={{ provider: 'Unsplash', altDescription: image.alt_description, createdAt: image.created_at, imgUrl: image.urls.thumb }} />
+            return <PictureBox key={image.id} image={{id:image.id, provider: 'Unsplash', altDescription: image.alt_description, createdAt: image.created_at, imgUrl: image.urls.thumb }} />
           })}
         </Grid>
       </Box>
@@ -44,11 +42,11 @@ export default function Home({ images }: ImagesProps) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const dataImages = await apiUnsplash.get('/photos/random?orientation=landscape&count=12').then(response => response.data)
+  const dataImages = await apiUnsplash.get('/photos/random?orientation=landscape&count=20').then(response => response.data)
   return {
     props: {
       images: dataImages
     },
-    revalidate: 1000 * 90
+    revalidate: 600
   }
 }
