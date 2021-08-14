@@ -1,12 +1,12 @@
 import { Flex, Text, SimpleGrid, Box, Stack, HStack, Img } from '@chakra-ui/react'
+import { GetStaticPaths } from 'next'
 import Link from 'next/link'
-import { Search } from '../../components/search'
 import { ShareButton } from '../../components/shareButton'
 import { apiUnsplash } from '../../services/api'
 
-interface IUnkownImage {
+interface IReqParams {
     params: {
-        unkownimage: string
+        unknown: string
     }
 }
 
@@ -39,19 +39,17 @@ type PictureInformation = {
     provider: string;
 }
 
-export default function UnkownImage({ image }: IImage) {
+export default function Unknown({ image }: IImage) {
     return (
         <>
-            <Search />
-
-            <Flex align="baseline" justify="center">
+            <Flex mt="4" align="baseline" justify="center">
                 <Box padding="1">
                     <Img borderRadius="md" src={image.urls.regular} alt={image.alt_description} />
                 </Box>
             </Flex>
 
             <Flex justify="flex-end" padding="2">
-                <ShareButton colorScheme="red" />
+                <ShareButton colorScheme="red" linkDownload={image.links.download} />
             </Flex>
 
             <SimpleGrid mt="2" columns={2} columnGap="sm">
@@ -93,15 +91,15 @@ export default function UnkownImage({ image }: IImage) {
 }
 
 // The fallback generate new pages in build time
-export async function getStaticPaths() {
+export const getStaticPaths: GetStaticPaths = async () => {
     return {
         paths: [],
         fallback: 'blocking',
     }
 }
 
-export async function getStaticProps({ params }: IUnkownImage) {
-    const pictureId = params.unkownimage[0].slice(0, -2)
+export const getStaticProps = async ({ params }: IReqParams) => {
+    const pictureId = String(params.unknown).slice(0, -2)
 
     const providerImage = 'Unsplash'
 

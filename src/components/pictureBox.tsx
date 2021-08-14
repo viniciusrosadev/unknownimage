@@ -10,10 +10,11 @@ interface PictureInformation {
 }
 
 interface IPictureBox {
-    image: PictureInformation
+    image: PictureInformation;
+    prefetch: boolean;
 }
 
-export function PictureBox({ image }: IPictureBox) {
+export function PictureBox({ image, prefetch }: IPictureBox) {
     let providerId;
 
     if (image.provider) {
@@ -21,7 +22,7 @@ export function PictureBox({ image }: IPictureBox) {
     }
 
     return (
-        <Link href={`/picture/${image.id}-${providerId}`} passHref>
+        <Link href={`/picture/${image.id}-${providerId}`} prefetch={prefetch} passHref>
             <Box as="a" boxSize="180px">
                 <Img w="max" h="36" objectFit="cover" borderRadius="full" src={image.imgUrl} alt={image.altDescription} />
             </Box>

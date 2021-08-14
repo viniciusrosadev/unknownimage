@@ -1,17 +1,25 @@
 import { Flex, InputGroup, Input, InputRightAddon, Icon } from "@chakra-ui/react";
+import { Formik, Form } from 'formik'
 import { AiOutlineSearch } from "react-icons/ai";
 
 export function Search() {
+
     return (
-        <Flex as="form" align="center" justify="center" padding="4">
-            <InputGroup size="lg" width="lg" borderColor="red.700">
+        <Flex align="center" justify="center" padding="4">
+            <Formik initialValues={{ searchText: '' }} onSubmit={handleSearch}>
+                {(props) => (
+                    <Form>
+                        <InputGroup size="lg" width="lg" borderColor="red.700">
 
-                <Input type="text" color="red.500" placeholder="Type your favorite picture" isRequired />
+                            <Input type="text" name="searchText" id="searchText" onChange={props.handleChange} color="red.500" placeholder="Type your favorite picture" isRequired />
 
-                <InputRightAddon as="button" bgColor="red.500">
-                    <Icon as={AiOutlineSearch} />
-                </InputRightAddon>
-            </InputGroup>
-        </Flex>
+                            <InputRightAddon type="submit" as="button" bgColor="red.500">
+                                <Icon as={AiOutlineSearch} />
+                            </InputRightAddon>
+                        </InputGroup>
+                    </Form>
+                )}
+            </Formik>
+        </Flex >
     )
 }

@@ -3,12 +3,13 @@ import { FaFacebook, FaTwitter, FaTwitch, FaWhatsapp, FaLinkedin, FaDownload } f
 
 interface IShareButton {
     colorScheme: string
+    linkDownload?: string
 }
 
-export function ShareButton({ colorScheme = 'red' }: IShareButton) {
+export function ShareButton({ colorScheme = 'red', linkDownload = '' }: IShareButton) {
     return (
-            <HStack>
-                <Button colorScheme={colorScheme}>
+        <HStack>
+            {/* <Button colorScheme={colorScheme}>
                     <Icon as={FaFacebook} />
                 </Button>
                 <Button colorScheme={colorScheme}>
@@ -22,10 +23,10 @@ export function ShareButton({ colorScheme = 'red' }: IShareButton) {
                 </Button>
                 <Button colorScheme={colorScheme}>
                     <Icon as={FaLinkedin} />
-                </Button>
-                <Button colorScheme={colorScheme}>
-                    <Icon as={FaDownload} />
-                </Button>
-            </HStack>
+                </Button> */}
+            <Button colorScheme={colorScheme} onClick={() => { window.open(linkDownload, "_blank") }}>
+                <Icon as={FaDownload} />
+            </Button>
+        </HStack>
     )
 }
