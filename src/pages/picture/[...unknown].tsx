@@ -1,6 +1,7 @@
 import { Flex, Text, SimpleGrid, Box, Stack, HStack, Img } from '@chakra-ui/react'
 import { GetStaticPaths } from 'next'
 import Link from 'next/link'
+import { Search } from '../../components/search'
 import { ShareButton } from '../../components/shareButton'
 import { apiUnsplash } from '../../services/api'
 
@@ -42,6 +43,7 @@ type PictureInformation = {
 export default function Unknown({ image }: IImage) {
     return (
         <>
+            <Search />
             <Flex mt="4" align="baseline" justify="center">
                 <Box padding="1">
                     <Img borderRadius="md" src={image.urls.regular} alt={image.alt_description} />
