@@ -6,7 +6,7 @@ export function Search() {
 
     return (
         <Flex align="center" justify="center" padding="4">
-            <Formik initialValues={{ searchText: '' }}>
+            <Formik initialValues={{ searchText: '' }} onSubmit={(values) => console.log(values)}>
                 {(props) => (
                     <Form>
                         <InputGroup size="lg" width="lg" borderColor="red.700">
