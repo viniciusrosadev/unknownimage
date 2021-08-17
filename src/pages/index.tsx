@@ -32,7 +32,7 @@ export default function Home({ images }: ImagesProps) {
 
   return (
     <>
-      {/* <Search /> */}
+      <Search />
       <Box>
         <Flex mt="4">
           <Text color="red.500">
