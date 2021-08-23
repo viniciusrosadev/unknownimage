@@ -20,16 +20,8 @@ type ImagesProps = {
 }
 
 export default function Home({ images }: ImagesProps) {
-  const [searchTerm, setSearchTerm] = useState('')
   const [pictureList, setPictureList] = useState<UnsplashImage[]>(images)
-  const [page, setPage] = useState(1)
-
-  async function handleSearch(term: { searchText: string }) {
-    setSearchTerm(term.searchText)
-
-    const newSearch = await apiUnsplash.get(`/search/photos?page=${page}&query=${term.searchText}&per_page=20&orientation=landscape`).then(response => response.data)
-  }
-
+  
   return (
     <>
       <Search />
