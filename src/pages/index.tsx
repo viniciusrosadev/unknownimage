@@ -1,9 +1,9 @@
-import { GetStaticProps } from 'next'
-import { Flex, Text, Badge, Box, Grid } from '@chakra-ui/react'
-import { PictureBox } from '../components/pictureBox'
-import { Search } from '../components/search'
-import { apiUnsplash } from '../services/api'
-import { useState } from 'react'
+import { GetStaticProps } from "next";
+import { Flex, Text, Badge, Box, Grid } from "@chakra-ui/react";
+import { PictureBox } from "../components/pictureBox";
+import { Search } from "../components/search";
+import { apiUnsplash } from "../services/api";
+import { useState } from "react";
 
 type UnsplashImage = {
   id: string;
@@ -12,16 +12,16 @@ type UnsplashImage = {
   urls: {
     full: string;
     thumb: string;
-  }
-}
+  };
+};
 
 type ImagesProps = {
-  images: UnsplashImage[]
-}
+  images: UnsplashImage[];
+};
 
 export default function Home({ images }: ImagesProps) {
-  const [pictureList, setPictureList] = useState<UnsplashImage[]>(images)
-  
+  const [pictureList, setPictureList] = useState<UnsplashImage[]>(images);
+
   return (
     <>
       <Search />
@@ -35,21 +35,35 @@ export default function Home({ images }: ImagesProps) {
           </Text>
         </Flex>
         <Grid mt="8" templateColumns={["repeat(2, 1fr)", "repeat(5, 1fr)"]}>
-          {pictureList.flatMap((image) => {
-            return <PictureBox prefetch={false} key={image.id} image={{ id: image.id, provider: 'Unsplash', altDescription: image.alt_description, createdAt: image.created_at, imgUrl: image.urls.thumb }} />
+          {pictureList.map((image) => {
+            return (
+              <PictureBox
+                prefetch={false}
+                key={image.id}
+                image={{
+                  id: image.id,
+                  provider: "Unsplash",
+                  altDescription: image.alt_description,
+                  createdAt: image.created_at,
+                  imgUrl: image.urls.thumb,
+                }}
+              />
+            );
           })}
         </Grid>
       </Box>
     </>
-  )
+  );
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const dataImages = await apiUnsplash.get('/photos/random?orientation=landscape&count=20').then(response => response.data)
+  const dataImages = await apiUnsplash
+    .get("/photos/random?orientation=landscape&count=20")
+    .then((response) => response.data);
   return {
     props: {
-      images: dataImages
+      images: dataImages,
     },
-    revalidate: 86400
-  }
-}
+    revalidate: 86400,
+  };
+};
